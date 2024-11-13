@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electricity Bill Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .input-group {
+            margin: 10px 0;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .button-group {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button-group button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .button-group button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Electricity Bill Calculator</h1>
+    <div class="input-group">
+        <label for="units">Enter Units Consumed:</label>
+        <input type="number" id="units" placeholder="Enter units" required>
+    </div>
+    <div class="button-group">
+        <button onclick="calculateBill()">Calculate Bill</button>
+    </div>
+    <div class="result">
+        <h3 id="totalBill">Total Bill: ₹0.00</h3>
+    </div>
+</div>
+
+<script>
+    function calculateBill() {
+        // Get the input value for units
+        let units = parseFloat(document.getElementById("units").value);
+        let totalBill = 0;
+
+        if (isNaN(units) || units < 0) {
+            alert("Please enter a valid number for units.");
+            return;
+        }
+
+        // Define the tiered rates for electricity consumption
+        if (units <= 100) {
+            totalBill = units * 0.5; // ₹0.5 per unit for first 100 units
+        } else if (units <= 200) {
+            totalBill = (100 * 0.5) + ((units - 100) * 0.75); // ₹0.75 per unit for next 100 units
+        } else if (units <= 300) {
+            totalBill = (100 * 0.5) + (100 * 0.75) + ((units - 200) * 1.2); // ₹1.2 per unit for next 100 units
+        } else {
+            totalBill = (100 * 0.5) + (100 * 0.75) + (100 * 1.2) + ((units - 300) * 1.5); // ₹1.5 per unit for above 300 units
+        }
+
+        // Format the total bill with commas for better readability
+        totalBill = totalBill.toLocaleString('en-IN');
+
+        // Display the result
+        document.getElementById("totalBill").textContent = `Total Bill: ₹${totalBill}`;
+    }
+</script>
+
+</body>
+</html>
